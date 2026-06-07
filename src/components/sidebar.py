@@ -19,15 +19,4 @@ def render_sidebar():
         ]
     )
 
-    st.sidebar.markdown("---")
-
-    st.sidebar.success("System Status: Active")
-
-    st.sidebar.info(
-        """
-        Professional AI-Powered
-        Data Cleaning Platform
-        """
-    )
-
     return selected_option

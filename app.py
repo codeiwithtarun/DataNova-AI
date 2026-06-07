@@ -3,7 +3,7 @@ import pandas as pd
 
 
 from src.components.sidebar import render_sidebar
-from src.components.navbar import render_navbar
+# from src.components.navbar import render_navbar
 from src.components.uploader import upload_dataset
 from src.components.data_preview import show_dataset_preview
 from src.utils.file_handler import load_dataset
@@ -45,7 +45,7 @@ from src.auth.database import (create_user,
                                save_cleaned_dataset,
                                get_cleaned_datasets
                                )
-from src.ai_engine.chatbot import ask_ai
+# from src.ai_engine.chatbot import ask_ai
 import matplotlib.pyplot as plt
 import seaborn as sns
 from src.eda.eda_analysis import show_eda_analysis
@@ -56,18 +56,362 @@ from src.eda.eda_analysis import show_eda_analysis
 # ---------------------------------------------------
 
 st.set_page_config(
+
     page_title="DataNova AI",
     page_icon="🧹",
     layout="wide",
     initial_sidebar_state="expanded"
 )
+st.markdown("""
+<script>
+
+function isMobile() {
+    return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent)
+           && window.innerWidth < 900;
+}
+
+if (isMobile()) {
+
+    document.body.innerHTML = `
+
+    <div style="
+        height:100vh;
+        width:100%;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        background:linear-gradient(135deg,#0f172a,#1e3a8a,#38bdf8);
+        font-family:'Segoe UI',sans-serif;
+        overflow:hidden;
+    ">
+
+        <div style="
+            width:90%;
+            max-width:420px;
+            background:rgba(255,255,255,0.08);
+            border:1px solid rgba(255,255,255,0.15);
+            backdrop-filter:blur(18px);
+            border-radius:28px;
+            padding:40px 30px;
+            text-align:center;
+            color:white;
+            box-shadow:0 8px 40px rgba(0,0,0,0.35);
+        ">
+
+            <div style="
+                font-size:70px;
+                margin-bottom:20px;
+            ">
+                💻
+            </div>
+
+            <h1 style="
+                margin:0;
+                font-size:34px;
+                font-weight:800;
+                color:white;
+            ">
+                DataNova AI
+            </h1>
+
+            <p style="
+                margin-top:15px;
+                font-size:18px;
+                line-height:1.7;
+                color:#dbeafe;
+            ">
+                Please enable 
+                <b style="color:#ffffff;">Desktop Site</b>
+                for the best experience.
+            </p>
+
+            <div style="
+                margin-top:25px;
+                background:rgba(255,255,255,0.08);
+                padding:16px;
+                border-radius:18px;
+                text-align:left;
+                font-size:15px;
+                line-height:1.8;
+                color:#e0f2fe;
+            ">
+
+                <b>📱 Chrome Browser:</b><br><br>
+
+                1️⃣ Tap the <b>⋮</b> menu<br>
+                2️⃣ Enable <b>Desktop Site</b><br>
+                3️⃣ Refresh the page
+
+            </div>
+
+            <button onclick="location.reload()" style="
+                margin-top:28px;
+                background:linear-gradient(90deg,#2563eb,#38bdf8);
+                border:none;
+                color:white;
+                padding:14px 28px;
+                border-radius:14px;
+                font-size:16px;
+                font-weight:600;
+                cursor:pointer;
+                box-shadow:0 4px 15px rgba(59,130,246,0.4);
+            ">
+                🔄 Refresh Page
+            </button>
+
+        </div>
+
+    </div>
+
+    `;
+}
+
+</script>
+""", unsafe_allow_html=True)
+
+# =========================================
+# CUSTOM UI DESIGN + ANIMATIONS
+# =========================================
+
+st.markdown("""
+<style>
+
+/* Main App Background */
+.stApp {
+    background: linear-gradient(
+        135deg,
+        #f8fbff,
+        #eef4ff,
+        #f5f7ff
+    );
+}
+
+/* Premium Sidebar */
+section[data-testid="stSidebar"] > div:first-child {
+
+    background: linear-gradient(
+        180deg,
+        #1e3a8a,
+        #2563eb,
+        #60a5fa
+    );
+
+    border-radius: 0px 20px 20px 0px;
+
+    box-shadow: 0 0 25px rgba(0,0,0,0.15);
+}
+
+/* Sidebar Text */
+section[data-testid="stSidebar"] * {
+    color: white !important;
+    font-weight: 500;
+}
+
+/* Main Title Animation */
+.main-title {
+    font-size: 55px;
+    font-weight: bold;
+    text-align: center;
+   
+    background: linear-gradient(90deg,#2563eb,#9333ea,#06b6d4);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+
+   
+}
+
+/* Subtitle */
+.sub-title {
+    text-align: center;
+    font-size: 22px;
+    color: #475569;
+    margin-bottom: 50px;
+}
+
+/* Feature Cards */
+.feature-card {
+
+    background: rgba(255,255,255,0.75);
+
+    backdrop-filter: blur(12px);
+
+    border-radius: 24px;
+
+    padding: 30px;
+
+    margin-bottom: 25px;
+
+    box-shadow:
+        0 8px 32px rgba(31,38,135,0.12);
+
+    transition: 0.4s ease;
+}
+
+/* Hover Effect */
+.feature-card:hover {
+
+    transform: translateY(-8px);
+
+    box-shadow:
+        0 15px 40px rgba(37,99,235,0.25);
+}
+
+/* Hover Effect */
+.feature-card:hover {
+    transform: scale(1.03);
+    box-shadow: 0px 8px 30px rgba(0,0,0,0.2);
+}
+
+/* Buttons */
+.stButton > button {
+
+    background: linear-gradient(
+        90deg,
+        #2563eb,
+        #7c3aed
+    );
+
+    color: white;
+
+    border: none;
+
+    border-radius: 14px;
+
+    padding: 12px 28px;
+
+    font-size: 16px;
+
+    font-weight: 600;
+
+    transition: 0.3s ease;
+}
+
+/* Button Hover */
+.stButton > button:hover {
+
+    transform: scale(1.05);
+
+    box-shadow:
+        0 10px 25px rgba(37,99,235,0.35);
+}
+
+/* Button Hover */
+.stButton>button:hover {
+    transform: scale(1.05);
+    background: linear-gradient(
+        to right,
+        #43e97b,
+        #38f9d7
+    );
+}
+
+/* Upload Box */
+[data-testid="stFileUploader"] {
+    border: 3px dashed #4facfe;
+    border-radius: 20px;
+    padding: 20px;
+    background: white;
+}
+
+/* Fade Animation */
+@keyframes fadeUp {
+
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0px);
+    }
+}
+
+.feature-card {
+    animation: fadeUp 0.7s ease;
+}
+/* Status Box */
+[data-testid="stSidebar"] .stMarkdown:nth-of-type(2) {
+
+    background: rgba(15, 23, 42, 0.75);
+
+    padding: 18px;
+
+    border-radius: 18px;
+
+    margin-top: 25px;
+
+    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+
+    backdrop-filter: blur(10px);
+}
+
+/* Authentication Box */
+
+[data-testid="stSidebar"] details {
+
+    background: rgba(15, 23, 42, 0.75);
+
+    padding: 12px;
+
+    border-radius: 18px;
+
+    margin-top: 20px;
+
+    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+
+    backdrop-filter: blur(10px);
+}
+
+/* ONE BIG NAVIGATION BOX */
+[data-testid="stSidebar"] .stRadio {
+
+    background: rgba(15, 23, 42, 0.45);
+
+    padding: 18px;
+
+    border-radius: 20px;
+
+    margin-top: 10px;
+
+    margin-bottom: 20px;
+
+    backdrop-filter: blur(10px);
+
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+}
+/* Navigation Hover */
+[data-testid="stSidebar"] .stRadio label:hover {
+
+    transform: translateX(5px);
+
+    transition: 0.3s ease;
+}
+
+
+   
+/* Sidebar Info Box */
+.sidebar-info-box {
+    background: rgba(10, 15, 40, 0.75);
+    padding: 20px;
+    border-radius: 22px;
+    margin-top: 25px;
+    color: white;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+}
+
+
+
+</style>
+""", unsafe_allow_html=True)
 
 
 # ---------------------------------------------------
 # NAVBAR
 # ---------------------------------------------------
 
-render_navbar()
+# render_navbar()
 
 
 # ---------------------------------------------------
@@ -249,28 +593,61 @@ if st.session_state.logged_in:
 
 if selected_option == "Home":
 
-    st.header("Welcome to DataNova AI")
-
-    st.write(
-        """
-        This platform helps you clean and preprocess datasets professionally.
-        """
-    )
-
-    st.subheader("Main Features")
-
     st.markdown(
         """
-        - Missing Value Handling
-        - Duplicate Removal
-        - Outlier Detection
-        - Data Visualization
-        - AI Suggestions
-        - Report Generation
-        """
+        <div class="main-title">
+            🚀 DataNova AI
+        </div>
+
+        <div class="sub-title">
+            Professional AI-Powered Data Cleaning Platform
+        </div>
+        """,
+        unsafe_allow_html=True
     )
+    st.markdown("""
+        <div class="feature-card">
+        <div class="feature-title">📤 Upload Dataset</div>
+        <div class="feature-desc">
+        Upload CSV and Excel datasets easily with drag & drop support.
+         </div>
+        </div>
 
+        <div class="feature-card">
+         <div class="feature-title">🧹 Data Cleaning</div>
+         <div class="feature-desc">
+            Clean missing values, duplicates and outliers automatically.
+         </div>
+            </div>
 
+        <div class="feature-card">
+             <div class="feature-title">📊 Visualization</div>
+        <div class="feature-desc">
+        Create professional charts and beautiful visual analytics instantly.
+        </div>
+         </div>
+
+        <div class="feature-card">
+        <div class="feature-title">📈 EDA Analysis</div>
+        <div class="feature-desc">
+        Perform detailed exploratory data analysis with smart insights.
+        </div>
+         </div>
+
+        <div class="feature-card">
+        <div class="feature-title">🤖 AI Suggestions</div>
+            <div class="feature-desc">
+        Get AI-powered recommendations and automated preprocessing ideas.
+        </div>
+        </div>
+
+        <div class="feature-card">
+        <div class="feature-title">📑 Reports</div>
+        <div class="feature-desc">
+        Generate professional downloadable reports and summaries.
+         </div>
+        </div>
+        """, unsafe_allow_html=True)
 # ---------------------------------------------------
 # UPLOAD DATASET
 # ---------------------------------------------------
@@ -1432,75 +1809,3 @@ elif selected_option == "Reports":
 # ---------------------------------------------------
 # AI CHATBOT
 # ---------------------------------------------------
-
-elif selected_option == "AI Chatbot":
-
-    st.header("🤖 AI Data Assistant")
-
-    uploaded_file = upload_dataset()
-
-    if uploaded_file is not None:
-
-        if "cleaned_df" in st.session_state:
-
-            dataframe = st.session_state[
-                "cleaned_df"
-            ]
-
-        else:
-
-            dataframe = pd.read_csv(
-                uploaded_file
-            )
-
-        st.subheader(
-            "📄 Dataset Preview"
-        )
-
-        st.dataframe(
-            dataframe.head()
-        )
-
-        question = st.text_input(
-            "Ask Anything About Your Dataset"
-        )
-
-        if st.button("Ask AI"):
-
-            dataset_info = f"""
-Columns: {list(dataframe.columns)}
-
-Shape: {dataframe.shape}
-
-Missing Values:
-{dataframe.isnull().sum().to_string()}
-
-Data Types:
-{dataframe.dtypes.to_string()}
-
-First 5 Rows:
-{dataframe.head().to_string()}
-"""
-
-            final_prompt = f"""
-You are a professional data analyst.
-
-Here is the dataset information:
-
-{dataset_info}
-
-User Question:
-{question}
-"""
-
-            with st.spinner(
-                "AI Thinking..."
-            ):
-
-                answer = ask_ai(
-                    final_prompt
-                )
-
-                st.success(
-                    answer
-                )
