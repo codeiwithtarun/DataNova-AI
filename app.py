@@ -63,110 +63,104 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 st.markdown("""
-<script>
+<style>
 
-function isMobile() {
-    return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent)
-           && window.innerWidth < 900;
+/* MOBILE WARNING SCREEN */
+
+.mobile-warning {
+
+    position: fixed;
+
+    top: 0;
+
+    left: 0;
+
+    width: 100%;
+
+    height: 100vh;
+
+    background: linear-gradient(
+        135deg,
+        #0f172a,
+        #1e3a8a,
+        #38bdf8
+    );
+
+    z-index: 999999;
+
+    display: none;
+
+    justify-content: center;
+
+    align-items: center;
+
+    padding: 20px;
 }
 
-if (isMobile()) {
+/* MOBILE ONLY */
 
-    document.body.innerHTML = `
+@media (max-width: 768px) {
 
-    <div style="
-        height:100vh;
-        width:100%;
-        display:flex;
-        justify-content:center;
-        align-items:center;
-        background:linear-gradient(135deg,#0f172a,#1e3a8a,#38bdf8);
-        font-family:'Segoe UI',sans-serif;
-        overflow:hidden;
-    ">
+    .mobile-warning {
 
-        <div style="
-            width:90%;
-            max-width:420px;
-            background:rgba(255,255,255,0.08);
-            border:1px solid rgba(255,255,255,0.15);
-            backdrop-filter:blur(18px);
-            border-radius:28px;
-            padding:40px 30px;
-            text-align:center;
-            color:white;
-            box-shadow:0 8px 40px rgba(0,0,0,0.35);
-        ">
+        display: flex;
+    }
 
-            <div style="
-                font-size:70px;
-                margin-bottom:20px;
-            ">
-                💻
-            </div>
+    .stApp {
 
-            <h1 style="
-                margin:0;
-                font-size:34px;
-                font-weight:800;
-                color:white;
-            ">
-                DataNova AI
-            </h1>
+        display: none;
+    }
+}
 
-            <p style="
-                margin-top:15px;
-                font-size:18px;
-                line-height:1.7;
-                color:#dbeafe;
-            ">
-                Please enable 
-                <b style="color:#ffffff;">Desktop Site</b>
-                for the best experience.
-            </p>
+/* WARNING CARD */
 
-            <div style="
-                margin-top:25px;
-                background:rgba(255,255,255,0.08);
-                padding:16px;
-                border-radius:18px;
-                text-align:left;
-                font-size:15px;
-                line-height:1.8;
-                color:#e0f2fe;
-            ">
+.warning-card {
 
-                <b>📱 Chrome Browser:</b><br><br>
+    width: 100%;
 
-                1️⃣ Tap the <b>⋮</b> menu<br>
-                2️⃣ Enable <b>Desktop Site</b><br>
-                3️⃣ Refresh the page
+    max-width: 420px;
 
-            </div>
+    background: rgba(255,255,255,0.08);
 
-            <button onclick="location.reload()" style="
-                margin-top:28px;
-                background:linear-gradient(90deg,#2563eb,#38bdf8);
-                border:none;
-                color:white;
-                padding:14px 28px;
-                border-radius:14px;
-                font-size:16px;
-                font-weight:600;
-                cursor:pointer;
-                box-shadow:0 4px 15px rgba(59,130,246,0.4);
-            ">
-                🔄 Refresh Page
-            </button>
+    border: 1px solid rgba(255,255,255,0.15);
 
-        </div>
+    backdrop-filter: blur(18px);
+
+    border-radius: 28px;
+
+    padding: 40px 30px;
+
+    text-align: center;
+
+    color: white;
+
+    box-shadow: 0 8px 40px rgba(0,0,0,0.35);
+}
+
+</style>
+
+<div class="mobile-warning">
+
+    <div class="warning-card">
+
+        <h1>💻 Desktop Mode Required</h1>
+
+        <p style="font-size:18px; line-height:1.7;">
+
+            Please enable <b>Desktop Site</b>
+            in your browser for the best experience.
+
+        </p>
+
+        <p style="opacity:0.8; margin-top:20px;">
+
+            Chrome → ⋮ Menu → Desktop Site ✔
+
+        </p>
 
     </div>
 
-    `;
-}
-
-</script>
+</div>
 """, unsafe_allow_html=True)
 
 # =========================================
