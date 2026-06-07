@@ -63,104 +63,60 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 st.markdown("""
-<style>
+<style>  
 
-/* MOBILE WARNING SCREEN */
-
-.mobile-warning {
-
-    position: fixed;
-
-    top: 0;
-
-    left: 0;
-
-    width: 100%;
-
-    height: 100vh;
-
-    background: linear-gradient(
-        135deg,
-        #0f172a,
-        #1e3a8a,
-        #38bdf8
-    );
-
-    z-index: 999999;
-
-    display: none;
-
-    justify-content: center;
-
-    align-items: center;
-
-    padding: 20px;
-}
-
-/* MOBILE ONLY */
+/* MOBILE RESPONSIVE */
 
 @media (max-width: 768px) {
 
-    .mobile-warning {
+    section[data-testid="stSidebar"] {
 
-        display: flex;
+        width: 220px !important;
+
+        min-width: 220px !important;
+
+        max-width: 220px !important;
     }
 
-    .stApp {
+    section[data-testid="stSidebar"] > div {
 
-        display: none;
+        width: 220px !important;
+    }
+
+    .main .block-container {
+
+        padding-left: 1rem !important;
+
+        padding-right: 1rem !important;
+
+        max-width: 100% !important;
+    }
+
+    .main-title {
+
+        font-size: 34px !important;
+    }
+
+    .sub-title {
+
+        font-size: 16px !important;
+    }
+
+    .feature-card {
+
+        padding: 18px !important;
+
+        border-radius: 16px !important;
+    }
+
+    .stButton button {
+
+        font-size: 14px !important;
+
+        padding: 10px !important;
     }
 }
-
-/* WARNING CARD */
-
-.warning-card {
-
-    width: 100%;
-
-    max-width: 420px;
-
-    background: rgba(255,255,255,0.08);
-
-    border: 1px solid rgba(255,255,255,0.15);
-
-    backdrop-filter: blur(18px);
-
-    border-radius: 28px;
-
-    padding: 40px 30px;
-
-    text-align: center;
-
-    color: white;
-
-    box-shadow: 0 8px 40px rgba(0,0,0,0.35);
-}
-
 </style>
-
-<div class="mobile-warning">
-
-    <div class="warning-card">
-
-        <h1>💻 Desktop Mode Required</h1>
-
-        <p style="font-size:18px; line-height:1.7;">
-
-            Please enable <b>Desktop Site</b>
-            in your browser for the best experience.
-
-        </p>
-
-        <p style="opacity:0.8; margin-top:20px;">
-
-            Chrome → ⋮ Menu → Desktop Site ✔
-
-        </p>
-
-    </div>
-
-</div>
 """, unsafe_allow_html=True)
 
 # =========================================
@@ -393,8 +349,7 @@ section[data-testid="stSidebar"] * {
     color: white;
     backdrop-filter: blur(10px);
     box-shadow: 0 8px 25px rgba(0,0,0,0.25);
-}
-
+    }
 
 
 </style>
@@ -413,6 +368,7 @@ section[data-testid="stSidebar"] * {
 # ---------------------------------------------------
 
 selected_option = render_sidebar()
+
 
 # ---------------------------------------------------
 # AUTHENTICATION
