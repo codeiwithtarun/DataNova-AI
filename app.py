@@ -1754,8 +1754,3 @@ elif selected_option == "Reports":
         st.dataframe(
             dataframe.describe()
         )
-
-
-# ---------------------------------------------------
-# AI CHATBOT
-# ---------------------------------------------------
